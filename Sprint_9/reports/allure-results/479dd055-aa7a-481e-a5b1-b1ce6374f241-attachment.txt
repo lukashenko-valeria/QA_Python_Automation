@@ -1,0 +1,3 @@
+Текущий URL: https://foodgram-frontend-1.prakticum-team.ru/recipes/73
+Название рецепта: Жареная утка
+Кнопка видима: <selenium.webdriver.remote.webelement.WebElement (session="d49991c45f3326ba01d0f0a62512311c", element="E68FA83E7547E3B1DC348D4EE9C1C623_element_59")>

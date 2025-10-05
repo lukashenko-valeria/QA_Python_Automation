@@ -1,0 +1,4 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","2823","Создаем аккаунт","tests","2025-10-03","passed","2025-10-03","TestAccount","Личный аккаунт","",""
+"","3992","Авторизуемся на сайте","tests","2025-10-03","passed","2025-10-03","TestAccount","Личный аккаунт","",""
+"","4067","Создаем и загружаем рецепт","tests","2025-10-03","passed","2025-10-03","TestRecipe","Создание рецептов","",""

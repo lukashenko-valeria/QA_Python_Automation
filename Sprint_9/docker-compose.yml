@@ -1,0 +1,52 @@
+# Перечень контейнеров идет после services:
+services:
+
+  # Имя и описание первого контейнера; Это контейнер селеноида
+  selenoid:
+    # Из какого образа запустить контейнер:
+    image: "aerokube/selenoid:latest-release"
+    # Как назвать контейнер:
+    container_name: selenoid
+    # Порты для работы <порт хоста> : <порт в контейнере>
+    ports:
+      - "4444:4444"
+    # Настройка сети для взаимодействия контейнеров
+    networks:
+      - selenoid
+    # настройки монтирования томов в формате <имя_volume> : <директория_контейнера>
+    volumes:
+      - "./selenoid/browsers.json:/etc/browsers.json:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    command: ["-conf", "/etc/browsers.json", "-container-network", "selenoid_net", "-limit", "10"]
+
+  # Имя и описание контейнера ui для селеноида
+  selenoid-ui:
+    image: "aerokube/selenoid-ui:latest"
+    container_name: selenoid-ui
+    ports:
+      - "8081:8080"
+    networks:
+      - selenoid
+    command: ["--selenoid-uri", "http://selenoid:4444"]
+
+  # Имя и описание контейнера с моим проектом
+  tests:
+    build: .
+    container_name: sprint_9_tests
+    # Какие контейнеры нужно запустить до старта этого контейнера:
+    depends_on:
+      - selenoid
+    networks:
+      - selenoid
+    environment:
+      SELENOID_URI: http://selenoid:4444/wd/hub
+      BROWSER: chrome
+      BROWSER_VERSION: "114.0"
+    volumes:
+      - ./reports:/app/reports
+    command: ["pytest", "-v", "--alluredir=reports/allure-results"]
+
+networks:
+  selenoid:
+    name: selenoid_net
+    driver: bridge
